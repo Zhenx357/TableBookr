@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Weekday {
+  MONDAY    @map("monday")
+  TUESDAY   @map("tuesday")
+  WEDNESDAY @map("wednesday")
+  THURSDAY  @map("thursday")
+  FRIDAY    @map("friday")
+  SATURDAY  @map("saturday")
+  SUNDAY    @map("sunday")
+
+  @@map("weekday")
+}
+
+enum BookingStatus {
+  CONFIRMED @map("confirmed")
+  PENDING   @map("pending")
+
+  @@map("booking_status")
+}
+
+enum BookingSource {
+  WEBSITE @map("website")
+
+  @@map("booking_source")
+}
+
+model Restaurant {
+  id          String              @id @default(uuid()) @db.Uuid
+  name        String
+  slug        String              @unique
+  email       String
+  phone       String
+  timezone    String
+  createdAt   DateTime            @default(now()) @map("created_at")
+  updatedAt   DateTime            @updatedAt @map("updated_at")
+  settings    RestaurantSettings?
+  openingHours OpeningHour[]
+  closedDates ClosedDate[]
+  bookings    Booking[]
+
+  @@map("restaurants")
+}
+
+model RestaurantSettings {
+  id                     String     @id @default(uuid()) @db.Uuid
+  restaurantId           String     @unique @map("restaurant_id") @db.Uuid
+  bookingSlotMinutes     Int        @default(30) @map("booking_slot_minutes")
+  bookingDurationMinutes Int        @default(120) @map("booking_duration_minutes")
+  maxOnlinePartySize     Int        @default(16) @map("max_online_party_size")
+  autoConfirmThreshold   Int        @default(99) @map("auto_confirm_threshold")
+  hardCapacityLimit      Int        @default(120) @map("hard_capacity_limit")
+  minimumLeadTimeMinutes Int        @default(60) @map("minimum_lead_time_minutes")
+  createdAt              DateTime   @default(now()) @map("created_at")
+  updatedAt              DateTime   @updatedAt @map("updated_at")
+  restaurant             Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@map("restaurant_settings")
+  @@index([restaurantId])
+}
+
+/// Phase 1 supports a single opening interval per weekday only.
+/// Split lunch/dinner service windows are intentionally not supported yet.
+model OpeningHour {
+  id           String     @id @default(uuid()) @db.Uuid
+  restaurantId String     @map("restaurant_id") @db.Uuid
+  weekday      Weekday
+  isOpen       Boolean    @default(false) @map("is_open")
+  openTime     DateTime?  @map("open_time") @db.Time(0)
+  closeTime    DateTime?  @map("close_time") @db.Time(0)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@map("opening_hours")
+  @@unique([restaurantId, weekday])
+  @@index([restaurantId])
+}
+
+model ClosedDate {
+  id           String     @id @default(uuid()) @db.Uuid
+  restaurantId String     @map("restaurant_id") @db.Uuid
+  date         DateTime   @db.Date
+  note         String?
+  createdAt    DateTime   @default(now()) @map("created_at")
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@map("closed_dates")
+  @@unique([restaurantId, date])
+  @@index([restaurantId])
+}
+
+model Booking {
+  id               String        @id @default(uuid()) @db.Uuid
+  restaurantId     String        @map("restaurant_id") @db.Uuid
+  customerName     String        @map("customer_name")
+  customerEmail    String        @map("customer_email")
+  customerPhone    String        @map("customer_phone")
+  guestCount       Int           @map("guest_count")
+  bookingDate      DateTime      @map("booking_date") @db.Date
+  bookingStartTime DateTime      @map("booking_start_time") @db.Time(0)
+  bookingEndTime   DateTime      @map("booking_end_time") @db.Time(0)
+  status           BookingStatus
+  source           BookingSource @default(WEBSITE)
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+  restaurant       Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@map("bookings")
+  @@index([restaurantId])
+  @@index([restaurantId, bookingDate, status])
+}
