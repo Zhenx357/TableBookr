@@ -12,9 +12,38 @@ This repository is for a booking platform that starts with one restaurant, but t
 - ORM: Prisma
 
 ## Source of truth
-Use `docs/blueprint.md` as the main product and architecture reference.
+Use `docs/blueprint.md` for product behavior and scope.
+Use `docs/DESIGN.md` for visual and UI design rules.
+If they conflict, `blueprint.md` controls behavior and `DESIGN.md` controls presentation.
 
-If there is any conflict between implementation convenience and the blueprint, follow the blueprint unless the task explicitly says otherwise.
+## Frontend implementation rules
+
+For frontend implementation, the Stitch-exported HTML and PNG are the primary visual reference for the current screen.
+
+When implementing a Stitch-designed screen:
+- inspect the exported HTML carefully before coding
+- use the PNG as a visual reference to match layout, spacing, hierarchy, and styling
+- do not fall back to old existing components if they do not match the Stitch design
+- prefer adapting or rewriting components so the final UI matches the Stitch reference closely
+
+## Verification requirements
+
+After implementing a frontend screen:
+- run the app locally
+- use Playwright to open the implemented screen
+- compare the rendered result against the Stitch PNG and exported HTML
+- verify layout, spacing, typography, and interaction states
+- fix major visual mismatches before considering the task complete
+
+## Source priority
+
+For frontend work, use sources in this priority order:
+1. `docs/blueprint.md` for product behavior and flow
+2. Stitch-exported HTML and PNG for the exact screen structure and visual layout
+3. `docs/DESIGN.md` for reusable visual system rules
+4. existing local components only if they match the design intent
+
+Do not reuse old components just because they already exist if doing so causes the UI to drift away from the Stitch design.
 
 ## Current scope
 Only work on **Phase 1**.

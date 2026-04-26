@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
 CREATE TYPE "weekday" AS ENUM (
   'monday',
   'tuesday',
@@ -20,20 +18,20 @@ CREATE TYPE "booking_source" AS ENUM (
 );
 
 CREATE TABLE "restaurants" (
-  "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+  "id" UUID NOT NULL,
   "name" TEXT NOT NULL,
   "slug" TEXT NOT NULL,
   "email" TEXT NOT NULL,
   "phone" TEXT NOT NULL,
   "timezone" TEXT NOT NULL,
   "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP(3) NOT NULL,
 
   CONSTRAINT "restaurants_pkey" PRIMARY KEY ("id")
 );
 
 CREATE TABLE "restaurant_settings" (
-  "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+  "id" UUID NOT NULL,
   "restaurant_id" UUID NOT NULL,
   "booking_slot_minutes" INTEGER NOT NULL DEFAULT 30,
   "booking_duration_minutes" INTEGER NOT NULL DEFAULT 120,
@@ -42,26 +40,26 @@ CREATE TABLE "restaurant_settings" (
   "hard_capacity_limit" INTEGER NOT NULL DEFAULT 120,
   "minimum_lead_time_minutes" INTEGER NOT NULL DEFAULT 60,
   "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP(3) NOT NULL,
 
   CONSTRAINT "restaurant_settings_pkey" PRIMARY KEY ("id")
 );
 
 CREATE TABLE "opening_hours" (
-  "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+  "id" UUID NOT NULL,
   "restaurant_id" UUID NOT NULL,
   "weekday" "weekday" NOT NULL,
   "is_open" BOOLEAN NOT NULL DEFAULT false,
   "open_time" TIME(0),
   "close_time" TIME(0),
   "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP(3) NOT NULL,
 
   CONSTRAINT "opening_hours_pkey" PRIMARY KEY ("id")
 );
 
 CREATE TABLE "closed_dates" (
-  "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+  "id" UUID NOT NULL,
   "restaurant_id" UUID NOT NULL,
   "date" DATE NOT NULL,
   "note" TEXT,
@@ -71,7 +69,7 @@ CREATE TABLE "closed_dates" (
 );
 
 CREATE TABLE "bookings" (
-  "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+  "id" UUID NOT NULL,
   "restaurant_id" UUID NOT NULL,
   "customer_name" TEXT NOT NULL,
   "customer_email" TEXT NOT NULL,
@@ -83,7 +81,7 @@ CREATE TABLE "bookings" (
   "status" "booking_status" NOT NULL,
   "source" "booking_source" NOT NULL DEFAULT 'website',
   "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP(3) NOT NULL,
 
   CONSTRAINT "bookings_pkey" PRIMARY KEY ("id")
 );

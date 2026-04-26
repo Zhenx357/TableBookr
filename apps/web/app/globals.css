@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --color-page: #f9f9fc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f3f3f6;
+  --color-text: #1a1c1e;
+  --color-muted: #414844;
+  --color-primary: #012d1d;
+  --color-primary-fixed: #c1ecd4;
+  --color-primary-container: #1b4332;
+  --color-primary-strong: #001d13;
+  --color-outline: #717973;
+  --color-outline-soft: #c1c8c2;
+  --color-error-bg: #ffdad6;
+  --color-error-soft: #efb4ad;
+  --color-error-strong: #93000a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-page);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-page);
+  color: var(--color-text);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:not(:disabled),
+select:not(:disabled) {
+  cursor: pointer;
+}
+
+::view-transition-old(.slide-forward) {
+  animation:
+    140ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+    220ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+}
+
+::view-transition-new(.slide-forward) {
+  animation:
+    160ms cubic-bezier(0, 0, 0.2, 1) 40ms both fade-in,
+    220ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+}
+
+::view-transition-old(.slide-back) {
+  animation:
+    140ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+    220ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-right;
+}
+
+::view-transition-new(.slide-back) {
+  animation:
+    160ms cubic-bezier(0, 0, 0.2, 1) 40ms both fade-in,
+    220ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-left;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-24px);
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(24px);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-to-right {
+  to {
+    transform: translateX(24px);
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    transform: translateX(-24px);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
