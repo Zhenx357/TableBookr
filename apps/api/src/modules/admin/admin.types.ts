@@ -23,6 +23,16 @@ export type AdminBookingSummary = {
   updatedAt: string;
 };
 
+export type AdminBookingDayContext = {
+  serviceStartTime: string;
+  serviceEndTime: string;
+};
+
+export type AdminBookingsResponse = {
+  bookings: AdminBookingSummary[];
+  dayContext?: AdminBookingDayContext;
+};
+
 export type AdminRequestContext = {
   adminUserId: string;
   restaurantId: string;

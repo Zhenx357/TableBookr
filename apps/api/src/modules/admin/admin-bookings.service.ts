@@ -11,12 +11,15 @@ import {
   dbDateToIsoDate,
   dbTimeFromMinutes,
   dbTimeToMinutes,
+  findOpeningHoursForDate,
   minutesToTimeString
 } from "../availability/availability.utils";
 import { PrismaService } from "../prisma/prisma.service";
 import {
   AdminBookingAction,
+  AdminBookingDayContext,
   AdminBookingListStatusFilter,
+  AdminBookingsResponse,
   AdminBookingSummary,
   AdminRequestContext
 } from "./admin.types";
@@ -32,7 +35,7 @@ export class AdminBookingsService {
       date?: string;
       q?: string;
     }
-  ): Promise<{ bookings: AdminBookingSummary[] }> {
+  ): Promise<AdminBookingsResponse> {
     const conditions: Prisma.BookingWhereInput[] = [{ restaurantId: admin.restaurantId }];
     const statusFilter = this.getStatusFilter(filters.status);
     const trimmedQuery = filters.q?.trim();
@@ -102,9 +105,13 @@ export class AdminBookingsService {
       },
       orderBy: [{ bookingDate: "asc" }, { bookingStartTime: "asc" }]
     });
+    const dayContext = filters.date
+      ? await this.getDayContext(admin, filters.date, bookings)
+      : undefined;
 
     return {
-      bookings: bookings.map((booking) => this.mapBooking(booking))
+      bookings: bookings.map((booking) => this.mapBooking(booking)),
+      dayContext
     };
   }
 
@@ -153,6 +160,60 @@ export class AdminBookingsService {
     }
 
     return booking;
+  }
+
+  private async getDayContext(
+    admin: AdminRequestContext,
+    date: string,
+    bookings: Booking[]
+  ): Promise<AdminBookingDayContext | undefined> {
+    const restaurant = await this.prisma.restaurant.findUnique({
+      where: { id: admin.restaurantId },
+      include: {
+        openingHours: true
+      }
+    });
+
+    if (!restaurant) {
+      throw new NotFoundException("Restaurant not found");
+    }
+
+    const bookingDate = DateTime.fromISO(date, { zone: admin.restaurantTimezone }).startOf("day");
+    const openingHours = findOpeningHoursForDate(restaurant.openingHours, bookingDate);
+    const hasOpeningHours =
+      !!openingHours?.isOpen && !!openingHours.openTime && !!openingHours.closeTime;
+
+    const earliestBookingStart = bookings[0]
+      ? dbTimeToMinutes(bookings[0].bookingStartTime)
+      : undefined;
+    const latestBookingEnd = bookings.reduce<number | undefined>((latest, booking) => {
+      const endMinutes = dbTimeToMinutes(booking.bookingEndTime);
+      return latest === undefined || endMinutes > latest ? endMinutes : latest;
+    }, undefined);
+
+    if (hasOpeningHours) {
+      const openingMinutes = dbTimeToMinutes(openingHours.openTime!);
+      const closingMinutes = dbTimeToMinutes(openingHours.closeTime!);
+
+      return {
+        serviceStartTime: minutesToTimeString(openingMinutes),
+        // Bookings can validly run past close, so the visible board range needs to follow them.
+        serviceEndTime: minutesToTimeString(
+          latestBookingEnd !== undefined && latestBookingEnd > closingMinutes
+            ? latestBookingEnd
+            : closingMinutes
+        )
+      };
+    }
+
+    if (earliestBookingStart === undefined || latestBookingEnd === undefined) {
+      return undefined;
+    }
+
+    return {
+      serviceStartTime: minutesToTimeString(earliestBookingStart),
+      serviceEndTime: minutesToTimeString(latestBookingEnd)
+    };
   }
 
   private getStatusFilter(status: AdminBookingListStatusFilter) {

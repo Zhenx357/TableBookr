@@ -5,6 +5,6 @@ export class AdminLoginDto {
   email!: string;
 
   @IsString()
-  @MinLength(8)
+  @MinLength(5)
   password!: string;
 }

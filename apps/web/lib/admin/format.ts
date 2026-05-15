@@ -14,6 +14,42 @@ export function formatAdminDate(value: string) {
   }).format(new Date(Date.UTC(year, month - 1, day)));
 }
 
+export function formatAdminDateWithDay(value: string) {
+  const [year, month, day] = value.split("-").map(Number);
+
+  if (!year || !month || !day) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC"
+  }).format(new Date(Date.UTC(year, month - 1, day)));
+}
+
+export function formatAdminMonthYear(value: Date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    month: "long",
+    year: "numeric"
+  }).format(value);
+}
+
+export function formatAdminTimeRange(start: string, end: string) {
+  return `${start} - ${end}`;
+}
+
+export function formatAdminServiceRange(
+  dayContext?: { serviceStartTime: string; serviceEndTime: string } | undefined
+) {
+  if (!dayContext) {
+    return "No service window";
+  }
+
+  return formatAdminTimeRange(dayContext.serviceStartTime, dayContext.serviceEndTime);
+}
+
 export function formatAdminCreatedAt(value: string) {
   const date = new Date(value);
 

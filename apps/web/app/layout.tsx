@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
+import "react-day-picker/style.css";
 
 import { LanguageProvider } from "@/i18n/language-provider";
 

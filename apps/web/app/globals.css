@@ -53,6 +53,78 @@ select:not(:disabled) {
   cursor: pointer;
 }
 
+.admin-day-picker .rdp-root {
+  --rdp-accent-color: var(--color-primary);
+  --rdp-accent-background-color: #f3f7f4;
+  --rdp-day_button-border-radius: 0.5rem;
+  --rdp-day-height: 32px;
+  --rdp-day-width: 32px;
+  --rdp-nav_button-width: 36px;
+  --rdp-nav_button-height: 36px;
+  margin: 0;
+  width: 100%;
+}
+
+.admin-day-picker .rdp-months {
+  justify-content: center;
+}
+
+.admin-day-picker .rdp-month {
+  width: 100%;
+}
+
+.admin-day-picker .rdp-month_grid {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.admin-day-picker .rdp-week {
+  width: 100%;
+}
+
+.admin-day-picker .rdp-caption_label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.admin-day-picker .rdp-weekday {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  padding-bottom: 0.35rem;
+  width: calc(100% / 7);
+}
+
+.admin-day-picker .rdp-day_button {
+  border: 1px solid transparent;
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  width: 100%;
+  min-width: 0;
+}
+
+.admin-day-picker .rdp-day_button:hover {
+  border-color: var(--color-outline-soft);
+  background: #f7f8f7;
+}
+
+.admin-day-picker .rdp-selected .rdp-day_button {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: white;
+}
+
+.admin-day-picker .rdp-today:not(.rdp-selected) .rdp-day_button {
+  border-color: var(--color-outline-soft);
+}
+
+.admin-day-picker .rdp-outside {
+  color: var(--color-outline);
+}
+
 ::view-transition-old(.slide-forward) {
   animation:
     140ms cubic-bezier(0.4, 0, 1, 1) both fade-out,

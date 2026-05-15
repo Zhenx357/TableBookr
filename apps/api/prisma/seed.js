@@ -2,11 +2,11 @@ const bcrypt = require("bcryptjs");
 const { BookingSource, BookingStatus, PrismaClient, Weekday } = require("@prisma/client");
 
 const prisma = new PrismaClient();
-const ADMIN_SEED_EMAIL = (process.env.ADMIN_SEED_EMAIL || "admin@test-restaurant.local")
+const ADMIN_SEED_EMAIL = (process.env.ADMIN_SEED_EMAIL || "admin@admin.dk")
   .trim()
   .toLowerCase();
-const ADMIN_SEED_NAME = (process.env.ADMIN_SEED_NAME || "Restaurant Admin").trim();
-const ADMIN_SEED_PASSWORD = process.env.ADMIN_SEED_PASSWORD || "admin123456";
+const ADMIN_SEED_NAME = (process.env.ADMIN_SEED_NAME || "Admin").trim();
+const ADMIN_SEED_PASSWORD = process.env.ADMIN_SEED_PASSWORD || "admin";
 
 function dateValue(dateString) {
   return new Date(`${dateString}T00:00:00.000Z`);
