@@ -51,16 +51,21 @@ function NavButton({
 }) {
   const Icon = item.icon;
   const sharedClassName =
-    "flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition";
+    "flex h-11 w-11 items-center justify-center rounded-xl transition";
   const activeClassName = active
-    ? "bg-[var(--color-primary-container)] text-[var(--color-primary-fixed)]"
+    ? "bg-[var(--color-primary-container)] text-[var(--color-primary-fixed)] shadow-sm"
     : "text-[#a3a6a9] hover:bg-white/5 hover:text-white";
 
   if (item.href) {
     return (
-      <Link href={item.href} className={`${sharedClassName} ${activeClassName}`}>
+      <Link
+        href={item.href}
+        title={item.label}
+        aria-label={item.label}
+        className={`${sharedClassName} ${activeClassName}`}
+      >
         <Icon className="h-[18px] w-[18px]" />
-        <span>{item.label}</span>
+        <span className="sr-only">{item.label}</span>
       </Link>
     );
   }
@@ -69,10 +74,12 @@ function NavButton({
     <button
       type="button"
       disabled
+      title={item.label}
+      aria-label={item.label}
       className={`${sharedClassName} ${activeClassName} cursor-not-allowed opacity-75`}
     >
       <Icon className="h-[18px] w-[18px]" />
-      <span>{item.label}</span>
+      <span className="sr-only">{item.label}</span>
     </button>
   );
 }
@@ -82,7 +89,7 @@ export function AdminSidebarNav() {
 
   return (
     <>
-      <nav className="flex-1 space-y-1">
+      <nav className="flex flex-1 flex-col items-center gap-3">
         {PRIMARY_ITEMS.map((item) => (
           <NavButton
             key={item.label}
@@ -92,18 +99,20 @@ export function AdminSidebarNav() {
         ))}
       </nav>
 
-      <div className="px-4">
+      <div className="flex justify-center">
         <button
           type="button"
           disabled
-          className="flex min-h-11 w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-[var(--color-primary)] px-4 text-sm font-medium text-white opacity-75"
+          title="New Booking"
+          aria-label="New Booking"
+          className="flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-xl bg-[var(--color-primary)] text-white opacity-75"
         >
           <AddIcon className="h-[18px] w-[18px]" />
-          <span>New Booking</span>
+          <span className="sr-only">New Booking</span>
         </button>
       </div>
 
-      <div className="mt-auto border-t border-white/10 px-2 pt-4">
+      <div className="mt-auto flex flex-col items-center gap-3 border-t border-white/10 pt-4">
         {SECONDARY_ITEMS.map((item) => (
           <NavButton key={item.label} item={item} />
         ))}

@@ -14,32 +14,35 @@ export default async function ProtectedAdminLayout({
 
   return (
     <div className="min-h-screen bg-[var(--color-page)] text-[var(--color-text)]">
-      <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col bg-[#222629] px-2 py-8 text-white shadow-lg lg:flex">
-        <div className="mb-8 px-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-primary)] text-sm font-semibold">
+      <aside className="fixed inset-y-0 left-0 z-50 hidden w-20 flex-col items-center bg-[#222629] px-0 py-4 text-white shadow-lg lg:flex">
+        <div className="mb-8">
+          <div
+            className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-primary)] text-sm font-semibold"
+            title={session.user.restaurantName}
+          >
+            <span className="sr-only">{session.user.restaurantName}</span>
+            <span aria-hidden="true">
               {getInitials(session.user.restaurantName)}
-            </div>
-            <div>
-              <h1 className="text-lg font-semibold leading-none text-white">
-                {session.user.restaurantName}
-              </h1>
-              <p className="mt-1 text-xs text-[#a3a6a9]">Staff Portal</p>
-            </div>
+            </span>
           </div>
         </div>
 
         <AdminSidebarNav />
       </aside>
 
-      <div className="flex min-h-screen flex-col lg:pl-64">
+      <div className="flex min-h-screen flex-col lg:pl-20">
         <header className="sticky top-0 z-40 border-b border-[var(--color-outline-soft)] bg-[var(--color-page)]/95 backdrop-blur">
           <div className="flex h-16 items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
-            <span className="text-lg font-semibold tracking-tight text-[var(--color-primary)]">
-              TableBookr
-            </span>
+            <div>
+              <span className="text-lg font-semibold tracking-tight text-[var(--color-primary)]">
+                TableBookr
+              </span>
+              <p className="hidden text-xs text-[var(--color-muted)] sm:block">
+                {session.user.restaurantName}
+              </p>
+            </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button
                 type="button"
                 className="rounded-full p-2 text-[var(--color-muted)] transition hover:bg-white hover:text-[var(--color-text)]"
@@ -56,16 +59,8 @@ export default async function ProtectedAdminLayout({
                 <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#ba1a1a]" />
               </button>
 
-              <div className="hidden items-center gap-3 border-l border-[var(--color-outline-soft)] pl-4 sm:flex">
-                <div className="text-right">
-                  <p className="text-sm font-medium text-[var(--color-text)]">
-                    {session.user.name}
-                  </p>
-                  <p className="text-xs text-[var(--color-muted)]">Staff Manager</p>
-                </div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[rgba(27,67,50,0.16)] bg-white text-sm font-semibold text-[var(--color-primary)]">
-                  {getInitials(session.user.name || session.user.email || "A")}
-                </div>
+              <div className="hidden h-10 w-10 items-center justify-center rounded-full border-2 border-[rgba(27,67,50,0.16)] bg-white text-sm font-semibold text-[var(--color-primary)] sm:flex">
+                {getInitials(session.user.name || session.user.email || "A")}
               </div>
 
               <form action={logoutAdminAction}>

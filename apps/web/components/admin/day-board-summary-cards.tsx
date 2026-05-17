@@ -62,12 +62,12 @@ function MetricCard({
   valueClassName?: string;
 }) {
   return (
-    <section className="flex items-center justify-between rounded-xl border border-[var(--color-outline-soft)] bg-white p-4 shadow-sm">
+    <section className="flex items-center justify-between rounded-xl border border-[var(--color-outline-soft)] bg-white px-4 py-3 shadow-sm">
       <div>
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-muted)]">
           {label}
         </p>
-        <p className={`mt-2 text-3xl font-semibold text-[var(--color-text)] ${valueClassName || ""}`}>
+        <p className={`mt-2 text-[1.75rem] font-semibold text-[var(--color-text)] ${valueClassName || ""}`}>
           {value}
         </p>
       </div>

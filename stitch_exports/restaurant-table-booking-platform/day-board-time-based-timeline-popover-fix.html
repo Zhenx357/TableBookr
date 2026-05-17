@@ -21,15 +21,7 @@
                 calc(100% / 12) 100%;
             background-position: 0 0, 0 0;
         }
-        
-        .drawer-open {
-            overflow: hidden;
-        }
-        
-        .drawer-overlay {
-            background-color: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(2px);
-        }</style>
+</style>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -245,8 +237,8 @@
 </aside>
 <!-- Main Center: Time Board -->
 <section class="flex-1 flex flex-col gap-stack-lg">
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm flex flex-col h-[500px] relative overflow-hidden">
-<div class="flex items-center justify-between px-stack-md py-stack-sm border-b border-outline-variant bg-surface-container-low">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm flex flex-col h-[500px] relative">
+<div class="flex items-center justify-between px-stack-md py-stack-sm border-b border-outline-variant bg-surface-container-low rounded-t-xl">
 <h2 class="font-label-md text-on-surface-variant">Reservation Timeline</h2>
 <div class="flex items-center gap-4">
 <div class="flex items-center gap-2">
@@ -258,8 +250,8 @@
 <span class="text-label-sm text-on-surface-variant">Available</span>
 </div>
 </div>
-<span class="text-label-sm text-on-surface-variant/60 font-medium italic">Select a reservation to view details</span></div>
-<div class="flex border-b border-outline-variant bg-white pl-16">
+</div>
+<div class="flex border-b border-outline-variant bg-white">
 <div class="flex-1 py-2 text-center text-[10px] font-bold text-on-surface border-r border-outline-variant">16:00</div>
 <div class="flex-1 py-2 text-center text-[9px] text-on-surface-variant/60 border-r border-outline-variant/30">16:30</div>
 <div class="flex-1 py-2 text-center text-[10px] font-bold text-on-surface border-r border-outline-variant">17:00</div>
@@ -273,76 +265,100 @@
 <div class="flex-1 py-2 text-center text-[10px] font-bold text-on-surface border-r border-outline-variant">21:00</div>
 <div class="flex-1 py-2 text-center text-[9px] text-on-surface-variant/60">21:30</div>
 </div>
-<div class="flex-1 relative overflow-y-auto bg-white flex">
-<div class="w-16 shrink-0 bg-surface-container-lowest border-r border-outline-variant sticky left-0 z-20 flex flex-col divide-y divide-outline-variant">
-<div class="h-10 flex items-center justify-center font-label-sm text-on-surface-variant font-bold bg-surface">T2</div>
-<div class="h-10 flex items-center justify-center font-label-sm text-on-surface-variant font-bold bg-surface">T4</div>
-<div class="h-10 flex items-center justify-center font-label-sm text-on-surface-variant font-bold bg-surface">T5</div>
-<div class="h-10 flex items-center justify-center font-label-sm text-on-surface-variant font-bold bg-surface">T8</div>
-<div class="h-10 flex items-center justify-center font-label-sm text-on-surface-variant font-bold bg-surface">T12</div>
-<div class="h-10 flex items-center justify-center font-label-sm text-on-surface-variant font-bold bg-surface">T15</div>
-<div class="h-10 flex items-center justify-center font-label-sm text-on-surface-variant font-bold bg-surface">T18-19</div>
-</div>
-<div class="flex-1 relative time-grid">
-<div class="absolute top-0 left-[20%] w-px h-full bg-error z-10">
+<div class="flex-1 relative overflow-y-auto bg-white rounded-b-xl">
+<div class="relative min-h-full time-grid flex flex-col divide-y divide-outline-variant/30">
+<div class="absolute top-0 left-[20%] w-px h-full bg-error z-10 pointer-events-none">
 <div class="absolute top-0 -left-1 w-2 h-2 bg-error rounded-full shadow-[0_0_8px_rgba(186,26,26,0.5)]"></div>
 </div>
-<div class="absolute top-0 w-full h-full flex flex-col divide-y divide-outline-variant/30">
-<!-- T2 -->
-<div class="h-10 relative group">
-<div class="absolute top-1/2 -translate-y-1/2 left-[25%] w-[16.66%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center justify-between text-xs">
-<span class="truncate font-medium">David Smith</span>
-<span class="shrink-0 opacity-80 text-[10px] ml-1">2p</span>
+<!-- Lane 1 -->
+<div class="h-10 relative group border-b border-outline-variant/30">
+<div class="absolute top-1/2 -translate-y-1/2 left-[20.83%] w-[16.66%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center text-xs">
+<span class="truncate font-medium">Sarah Jenkins · 2p</span>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 left-[58.33%] w-[25%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center text-xs">
+<span class="truncate font-medium">Elena Rodriguez · 6p</span>
 </div>
 </div>
-<!-- T4 -->
-<div class="h-10 relative group">
-<div class="absolute top-1/2 -translate-y-1/2 left-[20.83%] w-[16.66%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center justify-between text-xs">
-<span class="truncate font-medium">Sarah Jenkins</span>
-<span class="shrink-0 opacity-80 text-[10px] ml-1">2p</span>
+<!-- Lane 2 -->
+<div class="h-10 relative group border-b border-outline-variant/30">
+<div class="absolute top-1/2 -translate-y-1/2 left-[25%] w-[16.66%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center text-xs">
+<span class="truncate font-medium">David Smith · 2p</span>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 left-[41.66%] w-[16.66%] h-6 bg-surface-container-high border-l-2 border-outline rounded px-2 text-on-surface-variant flex items-center text-xs">
+<span class="truncate font-medium">Michael Chen · 2p</span>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 left-[58.33%] w-[33.33%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center text-xs">
+<span class="truncate font-medium">The Peterson Group · 8p</span>
 </div>
 </div>
-<!-- T5 -->
-<div class="h-10 relative group">
-<div class="absolute top-1/2 -translate-y-1/2 left-[33.33%] w-[25%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center justify-between text-xs">
-<span class="truncate font-medium">Lisa Taylor</span>
-<span class="shrink-0 opacity-80 text-[10px] ml-1">4p</span>
+<!-- Lane 3 -->
+<div class="h-10 relative group border-b border-outline-variant/30">
+<div class="absolute top-1/2 -translate-y-1/2 left-[33.33%] w-[25%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center text-xs">
+<span class="truncate font-medium">Lisa Taylor · 4p</span>
 </div>
 </div>
-<!-- T8 -->
-<div class="h-10 relative group">
-<div class="absolute top-1/2 -translate-y-1/2 left-[41.66%] w-[16.66%] h-6 bg-surface-container-high border-l-2 border-outline rounded px-2 text-on-surface-variant flex items-center justify-between text-xs">
-<span class="truncate font-medium">Michael Chen</span>
-<span class="shrink-0 text-[10px] ml-1">2p</span>
+<!-- Lane 4 (Selected with Popover) -->
+<div class="h-10 relative group border-b border-outline-variant/30">
+<div class="absolute top-1/2 -translate-y-1/2 left-[50%] w-[33.33%] h-7 bg-primary border-l-2 border-primary-fixed rounded px-2 shadow-lg text-white ring-2 ring-primary ring-offset-2 z-20 cursor-pointer flex items-center text-xs">
+<span class="truncate font-medium">Thomas Wright · 4p</span>
+</div>
+<!-- Popover for Thomas Wright -->
+<div class="absolute top-full left-[50%] mt-2 w-[340px] bg-white rounded-xl shadow-lg border border-outline-variant z-50 flex flex-col">
+<div class="p-4 border-b border-outline-variant flex justify-between items-start bg-surface-container-lowest rounded-t-xl">
+<div class="flex flex-col gap-1">
+<h4 class="font-h3 text-[18px] text-on-surface font-semibold">Thomas Wright</h4>
+<div>
+<span class="bg-primary text-white px-2 py-0.5 rounded-full text-[10px] font-bold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          Confirmed
+        </span>
 </div>
 </div>
-<!-- T12 -->
-<div class="h-10 relative group">
-<div class="absolute top-1/2 -translate-y-1/2 left-[50%] w-[33.33%] h-7 bg-primary border-l-2 border-primary-fixed rounded px-2 shadow-sm text-white ring-2 ring-primary-fixed ring-offset-1 z-20 cursor-pointer flex items-center justify-between text-xs">
-<span class="truncate font-medium">Thomas Wright</span>
-<span class="shrink-0 opacity-80 text-[10px] ml-1">4p</span>
+<button class="p-1 hover:bg-surface-container rounded-full text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-5 flex justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">schedule</span>
+</div>
+<div class="text-body-sm text-on-surface">Fri, Dec 25 • 19:00 – 21:00</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-5 flex justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">group</span>
+</div>
+<div class="text-body-sm text-on-surface">4 people</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-5 flex justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">call</span>
+</div>
+<div class="text-body-sm text-primary font-medium">+1 (555) 0123</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-5 flex justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">mail</span>
+</div>
+<div class="text-body-sm text-primary font-medium truncate">thomas@example.com</div>
+</div>
+<div class="mt-2 pt-3 border-t border-outline-variant">
+<p class="text-[11px] text-on-surface-variant font-bold uppercase mb-1.5">Note</p>
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/30 text-body-sm text-on-surface leading-snug">
+        VIP status - frequent guest. Preferred quiet corner. Anniversary celebration.
+      </div>
 </div>
 </div>
-<!-- T15 -->
-<div class="h-10 relative group">
-<div class="absolute top-1/2 -translate-y-1/2 left-[58.33%] w-[25%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center justify-between text-xs">
-<span class="truncate font-medium">Elena Rodriguez</span>
-<span class="shrink-0 opacity-80 text-[10px] ml-1">6p</span>
+<div class="p-4 pt-0">
+<button class="w-full bg-white border border-primary text-primary py-2 rounded-lg font-button text-button hover:bg-surface transition-colors">Edit Reservation</button>
 </div>
 </div>
-<!-- T18-19 -->
-<div class="h-10 relative group">
-<div class="absolute top-1/2 -translate-y-1/2 left-[58.33%] w-[33.33%] h-6 bg-primary-container border-l-2 border-primary rounded px-2 shadow-sm text-white cursor-pointer hover:scale-[1.01] transition-transform flex items-center justify-between text-xs">
-<span class="truncate font-medium">The Peterson Group</span>
-<span class="shrink-0 opacity-80 text-[10px] ml-1">8p</span>
 </div>
-</div>
-<!-- Pending (Floating, unassigned) -->
+<!-- Pending Lane -->
 <div class="h-10 relative group bg-error/5 border-t border-error/20 border-dashed">
-<div class="absolute top-1/2 -translate-y-1/2 left-[25%] w-[12.5%] h-6 bg-error-container border-l-2 border-error rounded px-2 text-on-error-container flex items-center justify-between text-xs">
-<span class="truncate font-medium">Pending</span>
-<span class="shrink-0 text-[10px] ml-1">3p</span>
-</div>
+<div class="absolute top-1/2 -translate-y-1/2 left-[25%] w-[12.5%] h-6 bg-error-container border-l-2 border-error rounded px-2 text-on-error-container flex items-center text-xs">
+<span class="truncate font-medium">Pending · 3p</span>
 </div>
 </div>
 </div>
@@ -362,7 +378,6 @@
 <th class="px-stack-md py-3 font-semibold">Time</th>
 <th class="px-stack-md py-3 font-semibold">Guest Name</th>
 <th class="px-stack-md py-3 font-semibold text-center">Covers</th>
-<th class="px-stack-md py-3 font-semibold">Table</th>
 <th class="px-stack-md py-3 font-semibold">Status</th>
 <th class="px-stack-md py-3 font-semibold">Notes</th>
 </tr>
@@ -372,15 +387,13 @@
 <td class="px-stack-md py-4 font-bold text-primary">17:15</td>
 <td class="px-stack-md py-4 font-medium text-on-surface">Sarah Jenkins</td>
 <td class="px-stack-md py-4 text-center">2</td>
-<td class="px-stack-md py-4">T4</td>
 <td class="px-stack-md py-4"><span class="bg-primary-container/10 text-primary-container px-2 py-1 rounded-full text-xs font-bold">Arrived</span></td>
 <td class="px-stack-md py-4 text-on-surface-variant italic">Window seat preferred</td>
 </tr>
-<tr class="hover:bg-surface transition-colors cursor-pointer bg-primary-fixed/20 border-l-4 border-primary">
+<tr class="hover:bg-surface transition-colors cursor-pointer bg-primary-fixed/30 border-l-4 border-primary ring-1 ring-inset ring-primary/20">
 <td class="px-stack-md py-4 font-bold text-primary">19:00</td>
 <td class="px-stack-md py-4 font-medium text-on-surface">Thomas Wright</td>
 <td class="px-stack-md py-4 text-center">4</td>
-<td class="px-stack-md py-4">T12</td>
 <td class="px-stack-md py-4"><span class="bg-primary text-white px-2 py-1 rounded-full text-xs font-bold">Confirmed</span></td>
 <td class="px-stack-md py-4 text-on-surface-variant italic">Birthday celebration</td>
 </tr>
@@ -388,7 +401,6 @@
 <td class="px-stack-md py-4 font-bold text-primary">19:30</td>
 <td class="px-stack-md py-4 font-medium text-on-surface">Elena Rodriguez</td>
 <td class="px-stack-md py-4 text-center">6</td>
-<td class="px-stack-md py-4">T15</td>
 <td class="px-stack-md py-4"><span class="bg-primary text-white px-2 py-1 rounded-full text-xs font-bold">Confirmed</span></td>
 <td class="px-stack-md py-4 text-on-surface-variant italic">—</td>
 </tr>
@@ -411,5 +423,4 @@
 </div>
 </footer>
 </div>
-<!-- Drawer Overlay -->
 </body></html>

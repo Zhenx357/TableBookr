@@ -15,7 +15,6 @@ import {
 } from "@/lib/admin/format";
 import { AdminBookingDayContext, AdminBookingSummary } from "@/lib/types/admin";
 
-import { BookingDetailsPanel } from "./booking-details-panel";
 import { BookingDayScheduleTable } from "./booking-day-schedule-table";
 import { BookingDayTimeline } from "./booking-day-timeline";
 import { DayBoardCalendarCard } from "./day-board-calendar-card";
@@ -32,11 +31,8 @@ export function BookingDayBoardPage({
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    bookings[0]?.id ?? null
-  );
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
   const [calendarMonth, setCalendarMonth] = useState(() => isoDateToLocalDate(selectedDate));
-  const selectedBooking = bookings.find((booking) => booking.id === selectedBookingId) || null;
   const bookingCount = bookings.length;
   const totalGuests = bookings.reduce((sum, booking) => sum + booking.guestCount, 0);
   const pendingCount = bookings.filter((booking) => booking.status === "pending").length;
@@ -45,8 +41,42 @@ export function BookingDayBoardPage({
 
   useEffect(() => {
     setCalendarMonth(isoDateToLocalDate(selectedDate));
-    setSelectedBookingId(bookings[0]?.id ?? null);
+    setSelectedBookingId(null);
   }, [bookings, selectedDate]);
+
+  useEffect(() => {
+    if (!selectedBookingId) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      if (target.closest("[data-booking-selection-root]")) {
+        return;
+      }
+
+      setSelectedBookingId(null);
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedBookingId(null);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [selectedBookingId]);
 
   function navigateToDate(nextDate: string) {
     startTransition(() => {
@@ -54,8 +84,12 @@ export function BookingDayBoardPage({
     });
   }
 
+  function handleSelectBooking(booking: AdminBookingSummary) {
+    setSelectedBookingId(booking.id);
+  }
+
   return (
-    <div className="grid gap-6 xl:grid-cols-[18rem_minmax(0,1fr)_20rem]">
+    <div className="grid gap-6 xl:grid-cols-[17rem_minmax(0,1fr)]">
       <aside className="space-y-4">
         <DayBoardCalendarCard
           month={calendarMonth}
@@ -90,19 +124,15 @@ export function BookingDayBoardPage({
           dayContext={dayContext}
           selectedDate={selectedDate}
           selectedBookingId={selectedBookingId}
-          onSelectBooking={(booking) => setSelectedBookingId(booking.id)}
+          onSelectBooking={handleSelectBooking}
+          onClearSelection={() => setSelectedBookingId(null)}
         />
         <BookingDayScheduleTable
           bookings={bookings}
           selectedBookingId={selectedBookingId}
-          onSelectBooking={(booking) => setSelectedBookingId(booking.id)}
+          onSelectBooking={handleSelectBooking}
         />
       </section>
-
-      <BookingDetailsPanel
-        booking={selectedBooking}
-        onClearSelection={() => setSelectedBookingId(null)}
-      />
     </div>
   );
 }

@@ -26,7 +26,7 @@ export function DayBoardCalendarCard({
   onNextDay: () => void;
 }) {
   return (
-    <section className="rounded-xl border border-[var(--color-outline-soft)] bg-white p-4 shadow-sm">
+    <section className="rounded-xl border border-[var(--color-outline-soft)] bg-white px-4 py-3 shadow-sm">
       <div className="flex items-center justify-between gap-3">
         <h2 className="text-sm font-medium text-[var(--color-text)]">{monthLabel}</h2>
         <div className="flex items-center gap-2">

@@ -12,7 +12,7 @@ export function BookingDayScheduleTable({
   onSelectBooking: (booking: AdminBookingSummary) => void;
 }) {
   return (
-    <section className="space-y-4">
+    <section className="space-y-4" data-booking-selection-root>
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-2xl font-semibold text-[var(--color-text)]">Today&apos;s Schedule</h2>
       </div>
@@ -25,9 +25,7 @@ export function BookingDayScheduleTable({
                 <th className="px-4 py-3">Time</th>
                 <th className="px-4 py-3">Guest Name</th>
                 <th className="px-4 py-3 text-center">Covers</th>
-                <th className="px-4 py-3">Table</th>
                 <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Notes</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--color-outline-soft)] text-sm">
@@ -38,8 +36,11 @@ export function BookingDayScheduleTable({
                   return (
                     <tr
                       key={booking.id}
+                      onClick={() => onSelectBooking(booking)}
                       className={`transition hover:bg-[var(--color-page)] ${
-                        selected ? "bg-[rgba(193,236,212,0.24)]" : "bg-white"
+                        selected
+                          ? "border-l-4 border-[var(--color-primary)] bg-[rgba(193,236,212,0.28)]"
+                          : "bg-white"
                       }`}
                     >
                       <td className="px-4 py-4">
@@ -57,18 +58,16 @@ export function BookingDayScheduleTable({
                       <td className="px-4 py-4 text-center text-[var(--color-text)]">
                         {booking.guestCount}
                       </td>
-                      <td className="px-4 py-4 text-[var(--color-muted)]">Not available yet</td>
                       <td className="px-4 py-4">
                         <StatusBadge status={booking.status} />
                       </td>
-                      <td className="px-4 py-4 italic text-[var(--color-muted)]">Not available yet</td>
                     </tr>
                   );
                 })
               ) : (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={4}
                     className="px-4 py-14 text-center text-sm text-[var(--color-muted)]"
                   >
                     No active bookings for this day.
